@@ -1,0 +1,22 @@
+<div class="slider">
+  <div>
+    <button mat-mini-fab matTooltip="Accent" color="primary"
+      (click)="goToPrevious()" class="leftArrow"><mat-icon>
+      navigate_before</mat-icon></button>
+    <button mat-mini-fab matTooltip="Accent" color="primary" (click)="goToNext()" class="rightArrow"><mat-icon>
+      navigate_next</mat-icon></button>
+  </div>
+  <div
+    class="slide"
+    [ngStyle]="{ 'background-image': getCurrentSlideUrl() }"
+  ></div>
+  <div class="dotsContainer">
+    <div
+      *ngFor="let slide of slides; let slideIndex = index"
+      class="dot"
+      (click)="goToSlide(slideIndex)"
+    >
+      ●
+    </div>
+  </div>
+</div>
