@@ -10,7 +10,7 @@ interface Option {
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.scss'],
 })
 
 export class HomeComponent implements OnInit {
@@ -18,8 +18,8 @@ export class HomeComponent implements OnInit {
   articles: Article[] = [];
 
   options: Option[] = [
-    {id: 'steak-0', value: 'alphabet'},
-    {id: 'pizza-1', value: 'date created'},
+    {id: '1', value: 'Alphabet'},
+    {id: '2', value: 'Date created'},
   ];
 
   constructor(private articleService: ArticleService) {}

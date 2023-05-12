@@ -1,49 +1,48 @@
+<mat-drawer-container class="example-container container">
+  <mat-drawer mode="side" opened style="width: 20%" position="end">
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <mat-label>Find something</mat-label>
+        <input matInput placeholder="" value="" />
+      </mat-form-field>
 
-<mat-drawer-container class="example-container">
-    <mat-drawer mode="side" opened style="width: 20%;" position ='end'>
-      <form class="example-form">
-        <mat-form-field class="example-full-width">
-          <mat-label>Find something</mat-label>
-          <input matInput placeholder="" value="">
-        </mat-form-field>
-      </form>
+      <mat-form-field appearance="fill" class="example-full-width">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Start date" />
+          <input matEndDate placeholder="End date" />
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Enter a date range</mat-label>
-            <mat-date-range-input [rangePicker]="picker">
-              <input matStartDate placeholder="Start date">
-              <input matEndDate placeholder="End date">
-            </mat-date-range-input>
-            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
-          </mat-form-field>
+      <mat-form-field appearance="fill" class="example-full-width">
+        <mat-label>Filter</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let option of options" [value]="option.value">
+            {{ option.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-drawer>
 
-          <mat-form-field appearance="fill">
-            <mat-label>Filter</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let option of options" [value]="option.value">
-                {{option.value}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-    </mat-drawer>
-
-    <mat-drawer-content>
-      <ul class="posts">
-        <li *ngFor="let article of articles">
-          <a routerLink="/articles/{{article.id}}">
-          <app-card></app-card>
-            <!-- <p>{{article.title}}</p>
+  <mat-drawer-content>
+    <ul class="posts">
+      <li *ngFor="let article of articles">
+        <app-card routerLink="/articles/{{ article.id }}"></app-card>
+        <!-- <p>{{article.title}}</p>
             
             <span>{{article.topic}}</span> -->
 
-          </a>
-          <!-- <button type="button" class="delete" title="delete hero"
+        <!-- <button type="button" class="delete" title="delete hero"
             (click)="delete(hero)">x</button> -->
-        </li>
-      </ul>
-        <!-- <app-card-list></app-card-list> -->
-    </mat-drawer-content>
+      </li>
+    </ul>
+    <!-- <app-card-list></app-card-list> -->
+  </mat-drawer-content>
 </mat-drawer-container>

@@ -1,0 +1,82 @@
+.example-container {
+  padding: 20px;
+}
+
+@mixin mobile {
+  @media screen and (min-width: 320px) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media screen and (min-width: 768px) {
+    @content;
+  }
+}
+@mixin desktop {
+  @media screen and (min-width: 1280px) {
+    @content;
+  }
+}
+
+.posts {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  & li {
+    cursor: pointer;
+    width: 100%;
+    transition: all 250ms linear;
+    &:hover,
+    &:focus {
+      transform: scale(1.01);
+      
+      box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+    }
+    @include tablet {
+      width: calc((100% - 30px) / 2);
+      gap: 32px;
+    }
+    @include desktop {
+      width: calc((100% - 60px) / 3);
+      column-gap: 16px;
+      row-gap: 32px;
+    }
+  }
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+
+  @media screen and (min-width: 320px) {
+    max-width: 320px;
+  }
+
+  @media screen and (min-width: 768px) {
+    padding: 0 32px;
+    max-width: 768px;
+  }
+
+  @media screen and (min-width: 1280px) {
+    max-width: 1280px;
+  }
+}

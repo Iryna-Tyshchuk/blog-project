@@ -5,13 +5,18 @@ import { Location } from '@angular/common';
 
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
+import { SlideInterface } from '../imageSlider/types/slide.interface';
 
 @Component({
   selector: 'app-card-details',
   templateUrl: './card-details.component.html',
-  styleUrls: ['./card-details.component.css']
+  styleUrls: ['./card-details.component.scss']
 })
 export class CardDetailsComponent implements OnInit {
+
+
+
+
   article: Article | undefined;
 
   constructor(
@@ -19,6 +24,15 @@ export class CardDetailsComponent implements OnInit {
     private articleService: ArticleService,
     private location: Location
   ) {}
+
+  slides: SlideInterface[] = [
+    { url: '/assets/image-1.jpeg', title: 'beach' },
+    { url: '/assets/image-2.jpeg', title: 'boat' },
+    { url: '/assets/image-3.jpeg', title: 'forest' },
+    { url: '/assets/image-4.jpeg', title: 'city' },
+    { url: '/assets/image-5.jpeg', title: 'italy' },
+  ];
+
 
   ngOnInit(): void {
     this.getArticle();

@@ -25,6 +25,7 @@ import { CreateArticleComponent } from './create-article/create-article.componen
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import { ImageSliderModule } from './imageSlider/imageSlider.module';
+import {MatListModule} from '@angular/material/list';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +54,8 @@ import { ImageSliderModule } from './imageSlider/imageSlider.module';
     HttpClientModule,
     MatButtonModule,
     MatSelectModule,
-    ImageSliderModule
+    ImageSliderModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

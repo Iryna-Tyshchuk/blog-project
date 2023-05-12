@@ -1,8 +1,0 @@
-.example-spacer {
-    flex: 1 1 auto;
-  }
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-  }

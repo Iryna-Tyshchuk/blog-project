@@ -5,7 +5,6 @@ export interface Article {
     image_1:string,
     image_2: string,
     id: string,
-    subtitle: string,
     description: string,
     topic: string
   }
