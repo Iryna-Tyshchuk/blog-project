@@ -14,8 +14,10 @@ interface Option {
 })
 
 export class HomeComponent implements OnInit {
-
+  // public article: Article = new Article();
   articles: Article[] = [];
+
+  currentArticle = 'Television';
 
   options: Option[] = [
     {id: '1', value: 'Alphabet'},
@@ -33,4 +35,6 @@ export class HomeComponent implements OnInit {
       .getArticles()
       .subscribe((articles) => (this.articles = articles));
   }
+
+  
 }

@@ -1,10 +1,9 @@
 export interface Article {
-    createdAt: string,
-    title: string,
-    image: string,
-    image_1:string,
-    image_2: string,
-    id: string,
-    description: string,
-    topic: string
-  }
+  createdAt: string;
+  title: string;
+  image: string;
+  id: number;
+  description: string;
+  topic: string;
+  date: number;
+}

@@ -31,7 +31,7 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
       ? this.slides.length - 1
       : this.currentIndex - 1;
 
-    this.resetTimer();
+    // this.resetTimer();
     this.currentIndex = newIndex;
   }
 

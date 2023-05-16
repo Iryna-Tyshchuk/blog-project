@@ -34,15 +34,9 @@
   <mat-drawer-content>
     <ul class="posts">
       <li *ngFor="let article of articles">
-        <app-card routerLink="/articles/{{ article.id }}"></app-card>
-        <!-- <p>{{article.title}}</p>
-            
-            <span>{{article.topic}}</span> -->
-
-        <!-- <button type="button" class="delete" title="delete hero"
-            (click)="delete(hero)">x</button> -->
+        <app-card routerLink="/articles/{{ article.id }}" [article]="article" ></app-card>
       </li>
     </ul>
-    <!-- <app-card-list></app-card-list> -->
   </mat-drawer-content>
 </mat-drawer-container>
+<!-- [article]="article" -->

@@ -14,9 +14,6 @@ import { SlideInterface } from '../imageSlider/types/slide.interface';
 })
 export class CardDetailsComponent implements OnInit {
 
-
-
-
   article: Article | undefined;
 
   constructor(
@@ -43,4 +40,9 @@ export class CardDetailsComponent implements OnInit {
     this.articleService.getArticle(id)
       .subscribe(article => this.article = article);
   }
+
+  goBack(): void {
+    this.location.back();
+  }
+
 }

@@ -1,5 +1,6 @@
 <div class="container">
   <mat-card>
+    <form style="display: flex; flex-wrap: wrap; flex-direction: column;">
     <mat-form-field appearance="fill">
       <mat-label>Title</mat-label>
       <input matInput />
@@ -14,7 +15,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field style="width: 100%">
+    <mat-form-field >
       <mat-label>Add some photos</mat-label>
       <button mat-icon-button matPrefix (click)="f_input.click()">
         <mat-icon>attach_file</mat-icon>
@@ -40,24 +41,25 @@
         confirm adding photos
       </button>
     </mat-card-actions>
-  </mat-card>
 
-  <mat-card *ngIf="file_list.length" style="margin-top: 16px">
-    <mat-list>
-      <div mat-subheader>Submit Files ({{ file_list.length }})</div>
-      <mat-list-item *ngFor="let file of file_list">
-        <mat-icon mat-list-icon>insert_drive_file</mat-icon>
-        <div mat-line>{{ file }}</div>
-      </mat-list-item>
-    </mat-list>
-  </mat-card>
+    <div *ngIf="file_list.length">
+      <mat-list>
+        <div mat-subheader>Submit Files ({{ file_list.length }})</div>
+        <mat-list-item *ngFor="let file of file_list">
+          <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+          <div mat-line>{{ file }}</div>
+        </mat-list-item>
+      </mat-list>
+    </div>
 
-  <mat-card>
     <mat-form-field appearance="fill">
       <mat-label>Add description</mat-label>
       <textarea matInput></textarea>
     </mat-form-field>
-  </mat-card>
-
-  <button mat-button type="button" color="primary">Confirm</button>
+    
+    <button mat-button type="submit" color="primary">Confirm</button>
+  </form>
+</mat-card>
 </div>
+
+
