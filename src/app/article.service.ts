@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -31,17 +31,6 @@ export class ArticleService {
       catchError(this.handleError<Article>(`getPost id=${id}`))
     );
   }
-
-
-  // getArticlesByTopic(topic: string): Observable<Article[]> {
-  //   const params = topic ? { topic: topic } : {};
-  //   return this.http.get<Article[]>(`${this.myBackendUrl}/posts/topic`, { params });
-  // }
-
-  // getArticlesByTopic(topic: string): Observable<Article[]> {
-  //   const params = topic ? { topic: topic } : {};
-  //   return this.http.get<Article[]>(`${this.apiUrl}/posts/topic`, { params });
-  // }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

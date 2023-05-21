@@ -1,16 +1,35 @@
 <mat-drawer-container class="home container">
-  <mat-drawer mode="side" opened style="width: 20%; min-width: 110px; padding: 10px;" position="end">
+  <mat-drawer mode="side" opened class="left_drawer" position="end">
     <form class="example-form">
       <mat-form-field class="example-full-width">
         <mat-label>Find something</mat-label>
-        <input matInput placeholder="" value="" />
+        <input
+          matInput
+          [(ngModel)]="searchText"
+          (keyup)="searchByTitle()"
+          placeholder=""
+          value=""
+        />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="example-full-width">
         <mat-label>Enter a date range</mat-label>
         <mat-date-range-input [rangePicker]="picker">
-          <input matStartDate placeholder="Start date" />
-          <input matEndDate placeholder="End date" />
+          <input
+            matStartDate
+            placeholder="Start date"
+            [(ngModel)]="startDate"
+            name="startDate"
+            name="searchText"
+            (dateChange)="searchByDateRange()"
+          />
+          <input
+            matEndDate
+            placeholder="End date"
+            [(ngModel)]="endDate"
+            name="endDate"
+            (dateChange)="searchByDateRange()"
+          />
         </mat-date-range-input>
         <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle
@@ -38,5 +57,4 @@
       </li>
     </ul>
   </mat-drawer-content>
-
 </mat-drawer-container>

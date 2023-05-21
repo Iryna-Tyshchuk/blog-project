@@ -47,7 +47,8 @@ export class CreateArticleComponent implements OnInit {
             subtitle: postData.subtitle,
             topic: postData.topic,
             description: postData.description,
-            images: postData.images
+            images: postData.images,
+            postDate: postData.postDate
           };
           this.form.setValue({
             title: this.article.title,

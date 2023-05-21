@@ -22,13 +22,7 @@ export class CardDetailsComponent implements OnInit {
     private location: Location
   ) {}
 
-  slides: SlideInterface[] = [
-    { url: '/assets/image-1.jpeg', title: 'beach' },
-    { url: '/assets/image-2.jpeg', title: 'boat' },
-    { url: '/assets/image-3.jpeg', title: 'forest' },
-    { url: '/assets/image-4.jpeg', title: 'city' },
-    { url: '/assets/image-5.jpeg', title: 'italy' },
-  ];
+  slides: SlideInterface[] | undefined = [] ;
 
 
   ngOnInit(): void {
@@ -37,8 +31,10 @@ export class CardDetailsComponent implements OnInit {
 
   getArticle(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
-    this.articleService.getArticle(id)
-      .subscribe(article => this.article = article);
+      this.articleService.getArticle(id).subscribe(article => {
+        this.article = article;
+        this.slides = article.images;
+      });
   }
 
   goBack(): void {

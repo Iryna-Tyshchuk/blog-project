@@ -4,6 +4,12 @@
   background: transparent;
 }
 
+.left_drawer {
+  width: 20%;
+  min-width: 110px;
+  padding: 10px;
+}
+
 @mixin mobile {
   @media screen and (min-width: 320px) {
     @content;

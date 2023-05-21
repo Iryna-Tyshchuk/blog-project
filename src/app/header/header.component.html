@@ -5,14 +5,39 @@
     </button>
 
     <span class="example-spacer"></span>
-    
-    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedTopic">
-      <mat-button-toggle (click)="selectTopic('Home')" [value]="'Home'" [class.active]="selectedTopic === 'Home'">Home</mat-button-toggle>
-      <mat-button-toggle (click)="selectTopic('Lifestyle')" [value]="'Lifestyle'" [class.active]="selectedTopic === 'Lifestyle'">Lifestyle</mat-button-toggle>
-      <mat-button-toggle (click)="selectTopic('Hobby')" [value]="'Hobby'" [class.active]="selectedTopic === 'Hobby'">Hobby</mat-button-toggle>
-      <mat-button-toggle (click)="selectTopic('Travel')" [value]="'Travel'" [class.active]="selectedTopic === 'Travel'">Travel</mat-button-toggle>
+
+    <mat-button-toggle-group
+    *ngIf="isHomePage"
+      name="fontStyle"
+      aria-label="Font Style"
+      [(ngModel)]="selectedTopic"
+    >
+      <mat-button-toggle
+        (click)="selectTopic('Home')"
+        [value]="'Home'"
+        [class.active]="selectedTopic === 'Home'"
+        >Home</mat-button-toggle
+      >
+      <mat-button-toggle
+        (click)="selectTopic('Lifestyle')"
+        [value]="'Lifestyle'"
+        [class.active]="selectedTopic === 'Lifestyle'"
+        >Lifestyle</mat-button-toggle
+      >
+      <mat-button-toggle
+        (click)="selectTopic('Hobby')"
+        [value]="'Hobby'"
+        [class.active]="selectedTopic === 'Hobby'"
+        >Hobby</mat-button-toggle
+      >
+      <mat-button-toggle
+        (click)="selectTopic('Travel')"
+        [value]="'Travel'"
+        [class.active]="selectedTopic === 'Travel'"
+        >Travel</mat-button-toggle
+      >
     </mat-button-toggle-group>
-    
+
     <span class="example-spacer"></span>
     <a
       mat-icon-button

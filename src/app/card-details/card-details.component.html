@@ -1,13 +1,9 @@
 <div *ngIf="article" class="container">
   <h2>{{ article.title }}</h2>
-
-  <!-- <img mat-card-image src={{article.image}} alt={{article.title}}> -->
-
-  <div style="width: 800px; height: 400px; margin: 0 auto">
-    <image-slider [slides]="slides"></image-slider>
+  <div class="slider_container" >
+    <image-slider *ngIf="article.images" [slides]="article.images"></image-slider>
   </div>
-
-  <p color="accent">{{ article.topic }}</p>
+  <p >{{ article.topic }}</p>
   <p>{{ article.description }}</p>
   <div class="button-box">
     <button mat-flat-button color="primary" (click)="goBack()">

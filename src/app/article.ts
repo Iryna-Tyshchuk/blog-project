@@ -1,3 +1,5 @@
+import { SlideInterface } from "./imageSlider/types/slide.interface";
+
 export interface Article {
   createdAt?: string;
   title: string;
@@ -5,9 +7,9 @@ export interface Article {
   subtitle?: string;
   description?: string;
   topic?: string;
-  // date: number;
+  postDate: Date;
   id?: any;
-  images?: Array<any>;
-
+  // images?: Array<any>;
+  images: SlideInterface[];
   _id: string; // in mongodb id is a string
 }
