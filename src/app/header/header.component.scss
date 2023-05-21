@@ -3,11 +3,14 @@
 }
 
 .header {
-  /* position: fix position;
-  top: 0; */
-  overflow: hidden;
+  // overflow: hidden;
   display: flex;
   justify-content: space-between;
+}
+.mat-button-toggle.active {
+  background-color: #673ab7; /* Задайте колір фону для активної кнопки */
+  color: #ffc107; /* Задайте колір тексту для активної кнопки */
+  /* Додайте інші стилі за вашим бажанням */
 }
 
 .container {

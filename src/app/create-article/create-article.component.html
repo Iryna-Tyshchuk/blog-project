@@ -1,65 +1,83 @@
 <div class="container">
-  <mat-card>
-    <form style="display: flex; flex-wrap: wrap; flex-direction: column;">
-    <mat-form-field appearance="fill">
-      <mat-label>Title</mat-label>
-      <input matInput />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Select topic</mat-label>
-      <mat-select>
-        <mat-option value="one">Home</mat-option>
-        <mat-option value="two">Travel</mat-option>
-        <mat-option value="tree">Lifestyle</mat-option>
-        <mat-option value="four">Hobby</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <mat-card style="margin-top: 20px">
+    <form
+      [formGroup]="form"
+      (submit)="onSavePost()"
+      style="
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        padding: 20px;
+      "
+    >
+      <mat-form-field appearance="fill">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Subtitle</mat-label>
+        <input matInput formControlName="subtitle" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Select topic</mat-label>
+        <mat-select formControlName="topic">
+          <mat-option value="Home">Home</mat-option>
+          <mat-option value="Travel">Travel</mat-option>
+          <mat-option value="Lifestyle">Lifestyle</mat-option>
+          <mat-option value="Hobby">Hobby</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field >
-      <mat-label>Add some photos</mat-label>
-      <button mat-icon-button matPrefix (click)="f_input.click()">
-        <mat-icon>attach_file</mat-icon>
-      </button>
-      <input type="text" readonly matInput [formControl]="display" />
-      <input
-        type="file"
-        multiple
-        hidden
-        #f_input
-        (change)="handleFileInputChange(f_input.files!)"
-      />
-      <mat-error>this field is required</mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Add description</mat-label>
+        <textarea matInput rows="4" formControlName="description"></textarea>
+      </mat-form-field>
 
-    <mat-card-actions align="end">
-      <button
-        mat-stroked-button
-        color="primary"
-        [disabled]="display.invalid"
-        (click)="handleSubmit()"
+      <div
+        formControlName="images"
+        class="dropzone"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+        (click)="fileInput.click()"
       >
-        confirm adding photos
+        <div class="dropzone-text">
+          <mat-icon color="primary">upload</mat-icon>
+          Drag and drop images here
+        </div>
+        <input
+          #fileInput
+          type="file"
+          style="display: none"
+          (change)="onFileSelected($event)"
+          multiple
+        />
+      </div>
+
+      <div *ngIf="images.length > 0" class="preview">
+        <div *ngFor="let image of images">
+          <div class="image-container">
+            <img [src]="image.url" alt="Image" width="100px" />
+            <button
+              mat-mini-fab
+              color="accent"
+              class="delete-button"
+              (click)="deleteImage(image)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button
+        mat-raised-button
+        type="submit"
+        color="accent"
+        style="margin-top: 20px"
+      >
+        SAVE POST
       </button>
-    </mat-card-actions>
-
-    <div *ngIf="file_list.length">
-      <mat-list>
-        <div mat-subheader>Submit Files ({{ file_list.length }})</div>
-        <mat-list-item *ngFor="let file of file_list">
-          <mat-icon mat-list-icon>insert_drive_file</mat-icon>
-          <div mat-line>{{ file }}</div>
-        </mat-list-item>
-      </mat-list>
-    </div>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Add description</mat-label>
-      <textarea matInput></textarea>
-    </mat-form-field>
-    
-    <button mat-button type="submit" color="primary">Confirm</button>
-  </form>
-</mat-card>
+    </form>
+  </mat-card>
 </div>
-
-

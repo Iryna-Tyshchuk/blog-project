@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'articles/:id', component: CardDetailsComponent},
   { path: 'article', component: CreateArticleComponent },
+  { path: "edit/:postId", component: CreateArticleComponent},
   
   { path: "**", redirectTo: "", component: HomeComponent }
 ];

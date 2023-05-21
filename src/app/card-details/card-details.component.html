@@ -1,5 +1,5 @@
 <div *ngIf="article" class="container">
-  <h2>{{ article.title}}</h2>
+  <h2>{{ article.title }}</h2>
 
   <!-- <img mat-card-image src={{article.image}} alt={{article.title}}> -->
 
@@ -13,7 +13,11 @@
     <button mat-flat-button color="primary" (click)="goBack()">
       Go back <mat-icon>home</mat-icon>
     </button>
-    <button mat-flat-button color="primary">
+    <button
+      mat-flat-button
+      color="primary"
+      [routerLink]="['/edit', article._id]"
+    >
       Edit <mat-icon>edit</mat-icon>
     </button>
   </div>

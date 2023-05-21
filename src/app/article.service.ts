@@ -6,30 +6,42 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Article } from './article';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ArticleService {
   private articlesUrl =
     'https://645b67d199b618d5f31a4c59.mockapi.io/api/blog/articles';
+
+  private myBackendUrl = 'http://localhost:3000/api/posts';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
   constructor(private http: HttpClient) {}
 
   getArticles(): Observable<Article[]> {
-    return this.http.get<Article[]>(this.articlesUrl).pipe(
+    return this.http.get<Article[]>(this.myBackendUrl).pipe(
       tap((_) => this.log('fetched posts')),
       catchError(this.handleError<Article[]>('getPosts', []))
     );
   }
-  getArticle(id: number): Observable<Article> {
-    const url = `${this.articlesUrl}/${id}`;
+
+  getArticle(id: string): Observable<Article> {
+    const url = `${this.myBackendUrl}/${id}`;
     return this.http.get<Article>(url).pipe(
       tap((_) => this.log(`fetched post id=${id}`)),
       catchError(this.handleError<Article>(`getPost id=${id}`))
     );
   }
+
+
+  // getArticlesByTopic(topic: string): Observable<Article[]> {
+  //   const params = topic ? { topic: topic } : {};
+  //   return this.http.get<Article[]>(`${this.myBackendUrl}/posts/topic`, { params });
+  // }
+
+  // getArticlesByTopic(topic: string): Observable<Article[]> {
+  //   const params = topic ? { topic: topic } : {};
+  //   return this.http.get<Article[]>(`${this.apiUrl}/posts/topic`, { params });
+  // }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -50,7 +62,7 @@ export class ArticleService {
     console.log('message', message);
   }
 
-  updateHero(article: Article): Observable<any> {
+  updateArticle(article: Article): Observable<any> {
     return this.http.put(this.articlesUrl, article, this.httpOptions).pipe(
       tap((_) => this.log(`updated post id=${article.id}`)),
       catchError(this.handleError<any>('updatePost'))
@@ -60,10 +72,10 @@ export class ArticleService {
   /** POST: add a new hero to the server */
   addArticle(article: any, file: any): Observable<Article> {
     return this.http
-      .post<Article>(this.articlesUrl, article, this.httpOptions)
+      .post<Article>(this.myBackendUrl, article, this.httpOptions)
       .pipe(
         tap((newArticle: Article) =>
-          this.log(`added post w/ id=${newArticle.id}`)
+          this.log(`added post w/ id=${newArticle._id}`)
         ),
         catchError(this.handleError<Article>('addPost'))
       );
@@ -75,12 +87,12 @@ export class ArticleService {
 
     return this.http.delete<Article>(url, this.httpOptions).pipe(
       tap((_) => this.log(`deleted hero id=${id}`)),
-      catchError(this.handleError<Article>('deleteHero'))
+      catchError(this.handleError<Article>('deleteArticle'))
     );
   }
 
   /* GET heroes whose name contains search term */
-  searchHeroes(term: string): Observable<Article[]> {
+  searchArticles(term: string): Observable<Article[]> {
     if (!term.trim()) {
       // if not search term, return empty hero array.
       return of([]);

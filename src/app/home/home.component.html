@@ -1,5 +1,5 @@
-<mat-drawer-container class="example-container container">
-  <mat-drawer mode="side" opened style="width: 20%" position="end">
+<mat-drawer-container class="home container">
+  <mat-drawer mode="side" opened style="width: 20%; min-width: 110px; padding: 10px;" position="end">
     <form class="example-form">
       <mat-form-field class="example-full-width">
         <mat-label>Find something</mat-label>
@@ -32,11 +32,11 @@
   </mat-drawer>
 
   <mat-drawer-content>
-    <ul class="posts">
+    <ul class="posts" *ngIf="articles.length > 0">
       <li *ngFor="let article of articles">
-        <app-card routerLink="/articles/{{ article.id }}" [article]="article" ></app-card>
+        <app-card [article]="article"></app-card>
       </li>
     </ul>
   </mat-drawer-content>
+
 </mat-drawer-container>
-<!-- [article]="article" -->

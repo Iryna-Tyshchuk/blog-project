@@ -36,7 +36,7 @@ export class CardDetailsComponent implements OnInit {
   }
 
   getArticle(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    const id = this.route.snapshot.paramMap.get('id')!;
     this.articleService.getArticle(id)
       .subscribe(article => this.article = article);
   }
