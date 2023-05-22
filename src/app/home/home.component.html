@@ -2,10 +2,11 @@
   <mat-drawer mode="side" opened class="left_drawer" position="end">
     <form class="example-form">
       <mat-form-field class="example-full-width">
-        <mat-label>Find something</mat-label>
+        <mat-label>Find by title</mat-label>
         <input
           matInput
           [(ngModel)]="searchText"
+          name="searchText"
           (keyup)="searchByTitle()"
           placeholder=""
           value=""
@@ -20,7 +21,6 @@
             placeholder="Start date"
             [(ngModel)]="startDate"
             name="startDate"
-            name="searchText"
             (dateChange)="searchByDateRange()"
           />
           <input
@@ -56,5 +56,13 @@
         <app-card [article]="article"></app-card>
       </li>
     </ul>
+
+    <mat-paginator
+      [length]="totalPosts"
+      [pageSize]="postsPerPage"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onChangedPage($event)"
+      *ngIf="articles.length > 0"
+    ></mat-paginator>
   </mat-drawer-content>
 </mat-drawer-container>

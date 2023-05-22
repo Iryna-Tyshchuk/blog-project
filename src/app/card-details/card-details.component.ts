@@ -22,7 +22,7 @@ export class CardDetailsComponent implements OnInit {
     private location: Location
   ) {}
 
-  slides: SlideInterface[] | undefined = [] ;
+  slides: SlideInterface[] = [] ;
 
 
   ngOnInit(): void {

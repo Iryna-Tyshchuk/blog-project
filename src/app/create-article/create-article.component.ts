@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
+import { EMPTY, debounceTime, first, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-create-article',
@@ -14,16 +21,14 @@ export class CreateArticleComponent implements OnInit {
   title = '';
   subTitle = '';
   topic = '';
-  article!: Article;
-  images: { url: string , titleImg: "post"}[] = [];
+  // images: { url: string; titleImg: 'post' }[] = [];
   imagePreview!: string;
-  private mode = 'create';
-  private postId!: string | null;
+  mode = 'create';
 
   constructor(
     public articleService: ArticleService,
     public route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -32,49 +37,51 @@ export class CreateArticleComponent implements OnInit {
       subtitle: new FormControl(null, { validators: [Validators.required] }),
       topic: new FormControl(null, { validators: [Validators.required] }),
       description: new FormControl(null, { validators: [Validators.required] }),
-      images: new FormControl(this.images),
+      images: new FormArray([]),
       // images: this.formBuilder.array([])
     });
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('postId')) {
-        this.mode = 'edit';
-        this.postId = paramMap.get('postId');
+    this.route.paramMap
+      .pipe(
+        first(),
+        switchMap((paramMap: ParamMap) => {
+          if (!paramMap.has('postId')) {
+            this.mode = 'create';
+            return EMPTY;
+          }
 
-        this.articleService.getArticle(this.postId!).subscribe((postData) => {
-          this.article = {
-            _id: postData._id,
-            title: postData.title,
-            subtitle: postData.subtitle,
-            topic: postData.topic,
-            description: postData.description,
-            images: postData.images,
-            postDate: postData.postDate
-          };
-          this.form.setValue({
-            title: this.article.title,
-            subtitle: this.article.subtitle,
-            topic: this.article.topic,
-            description: this.article.description,
-            images: this.article.images
-          });
-        });
-      } else {
-        this.mode = 'create';
-        this.postId = null;
-      }
-    });
+          this.mode = 'edit';
+          const postId = paramMap.get('postId') as string;
+
+          return this.articleService.getArticle(postId).pipe(
+            tap((postData) => {
+              if (!postData) return;
+              this.form.setValue({
+                title: postData.title,
+                subtitle: postData.subtitle,
+                topic: postData.topic,
+                description: postData.description,
+                images: [],
+              });
+
+              for (const img of postData.images) {
+                this.images.push(this.fb.control(img));
+              }
+            })
+          );
+        })
+      )
+      .subscribe();
   }
 
   onSavePost() {
     if (this.form.invalid) {
       return;
     }
-    console.log(this.form.value);
+    console.table(this.form.value);
     this.articleService.addArticle({ ...this.form.value }, null);
     this.form.reset();
     // popUp ваш пост доданий успішно
     // почистити масив картинок і редірект на home
-
   }
 
   onDragOver(event: DragEvent) {
@@ -85,40 +92,39 @@ export class CreateArticleComponent implements OnInit {
     event.preventDefault();
   }
 
-  onDrop(event: DragEvent) {
-    event.preventDefault();
-    const files = event.dataTransfer?.files;
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this.images.push({ url: e.target.result , titleImg: "post"});
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-  }
-
   deleteImage(image: any) {
-    const imageIndex = this.images.indexOf(image);
-    if (imageIndex !== -1) {
-      this.images.splice(imageIndex, 1);
-    }
+    const index = this.images.value.indexOf(image);
+    if (index !== -1) this.images.removeAt(index);
   }
 
   onFileSelected(event: any) {
-    const files = event.target.files;
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this.images.push({ url: e.target.result, titleImg: "post" });
-        };
-        reader.readAsDataURL(file);
-      }
-    }
+    const { files } = event.target;
+    if (files) this.selectFiler(files);
   }
 
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    const files = event.dataTransfer?.files;
+    if (files) this.selectFiler(files);
+  }
+
+  selectFiler(files: any) {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.images.push(
+          this.fb.control({
+            url: e.target.result,
+            titleImg: 'post',
+            isNewPhoto: true,
+          })
+        );
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  get images(): FormArray {
+    return <FormArray>this.form.controls['images'];
+  }
 }

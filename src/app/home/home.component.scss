@@ -8,6 +8,7 @@
   width: 20%;
   min-width: 110px;
   padding: 10px;
+  background: transparent;
 }
 
 @mixin mobile {
@@ -72,9 +73,16 @@
   gap: 20px;
 }
 
+mat-paginator {
+  background: transparent;
+  // margin-top: auto;
+  margin-bottom: 60px;
+}
+
 .container {
   width: 100%;
   margin: 0 auto;
+  margin-top: 60px;
   padding: 0 20px;
 
   @media screen and (min-width: 320px) {

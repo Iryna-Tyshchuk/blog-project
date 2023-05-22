@@ -1,9 +1,16 @@
 <div *ngIf="article" class="container">
   <h2>{{ article.title }}</h2>
-  <div class="slider_container" >
-    <image-slider *ngIf="article.images" [slides]="article.images"></image-slider>
+  <div class="slider_container">
+    <image-slider
+      *ngIf="article.images"
+      [slides]="article.images"
+    ></image-slider>
   </div>
-  <p >{{ article.topic }}</p>
+  <div class="topic_date">
+    <span>{{ article.topic }}</span>
+    <span>{{ article.postDate | date }}</span>
+  </div>
+  <p class="subtitle">{{ article.subtitle }}</p>
   <p>{{ article.description }}</p>
   <div class="button-box">
     <button mat-flat-button color="primary" (click)="goBack()">

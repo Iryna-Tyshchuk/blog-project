@@ -1,26 +1,18 @@
 <mat-card class="example-card">
-  <mat-card-header>
-    <mat-card-title style="text-transform: capitalize">
+  <mat-card-header style="min-height: 80px;">
+    <mat-card-title>
       {{article.title}}
     </mat-card-title>
-    <!-- <div>{{article.date}}</div> -->
   </mat-card-header>
   <img mat-card-image src="{{ article.images![0].url }}" alt="Photo" />
-
-  <mat-card-content>
-    <p>Topic {{ article.topic }}</p>
+  
+  <mat-card-content class="mat_card_content">
+    <span>Topic {{ article.topic }}</span>
+    <span>{{article.postDate | date}}</span>
   </mat-card-content>
   <mat-card-actions style="display: flex;   justify-content: space-between;">
     <!-- <button mat-flat-button color="accent">Delete</button> -->
-    <!-- <button mat-raised-button (click)="openDialog('1000ms', '250ms')">Open dialog slowly</button> -->
-    <!-- <div mat-dialog-content>
-      Delete
-    </div>
-    <div mat-dialog-actions>
-      <button mat-button mat-dialog-close>No</button>
-      <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
-    </div> -->
-    <button mat-flat-button color="primary" routerLink="/articles/{{ article._id }}">
+    <button mat-flat-button color="accent" routerLink="/articles/{{ article._id }}">
       Read More
     </button>
   </mat-card-actions>

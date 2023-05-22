@@ -9,7 +9,6 @@ export interface Article {
   topic?: string;
   postDate: Date;
   id?: any;
-  // images?: Array<any>;
   images: SlideInterface[];
   _id: string; // in mongodb id is a string
 }

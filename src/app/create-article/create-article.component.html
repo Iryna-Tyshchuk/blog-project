@@ -1,15 +1,6 @@
 <div class="container">
   <mat-card style="margin-top: 20px">
-    <form
-      [formGroup]="form"
-      (submit)="onSavePost()"
-      style="
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        padding: 20px;
-      "
-    >
+    <form [formGroup]="form" (submit)="onSavePost()" class="form_box">
       <mat-form-field appearance="fill">
         <mat-label>Title</mat-label>
         <input matInput formControlName="title" />
@@ -54,10 +45,15 @@
         />
       </div>
 
-      <div *ngIf="images.length > 0" class="preview">
-        <div *ngFor="let image of images">
+      <div *ngIf="images.value as formImages" class="preview">
+        <div *ngFor="let image of formImages">
           <div class="image-container">
-            <img [src]="image.url" alt="Image" width="100px" />
+            <img
+              [src]="image.url"
+              alt="Image"
+              width="100px"
+              style="border-radius: 5px"
+            />
             <button
               mat-mini-fab
               color="accent"

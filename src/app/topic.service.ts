@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TopicService {
-  private selectedTopicSubject: BehaviorSubject<string> = new BehaviorSubject<string>('Home');
+  private selectedTopicSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public selectedTopic$: Observable<string> = this.selectedTopicSubject.asObservable();
 
   constructor() {}

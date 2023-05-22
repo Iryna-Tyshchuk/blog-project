@@ -1,6 +1,7 @@
 .container {
   width: 100%;
   margin: 0 auto;
+  margin-top: 80px;
   padding: 0 20px;
 
   @media screen and (min-width: 320px) {
@@ -31,10 +32,27 @@
   gap: 10px;
   align-items: center;
   justify-content: center;
+ & button {
+  color: #ffd740;
+ }
 }
 
 .slider_container {
   width: 800px;
   height: 400px;
   margin: 0 auto;
+}
+
+.topic_date {
+  color: #673ab7;
+  font-weight: 500;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  justify-content: center;
+}
+.subtitle{
+  color: #673ab7;
+  font-weight: 600;
 }

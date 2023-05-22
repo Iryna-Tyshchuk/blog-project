@@ -1,10 +1,23 @@
 <div class="slider">
   <div>
-    <button mat-mini-fab matTooltip="Accent" color="primary"
-      (click)="goToPrevious()" class="leftArrow"><mat-icon>
-      navigate_before</mat-icon></button>
-    <button mat-mini-fab matTooltip="Accent" color="primary" (click)="goToNext()" class="rightArrow"><mat-icon>
-      navigate_next</mat-icon></button>
+    <button
+      mat-mini-fab
+      matTooltip="Accent"
+      color="primary"
+      (click)="goToPrevious()"
+      class="leftArrow"
+    >
+      <mat-icon color="accent"> navigate_before</mat-icon>
+    </button>
+    <button
+      mat-mini-fab
+      matTooltip="Accent"
+      color="primary"
+      (click)="goToNext()"
+      class="rightArrow"
+    >
+      <mat-icon color="accent"> navigate_next</mat-icon>
+    </button>
   </div>
   <div
     class="slide"

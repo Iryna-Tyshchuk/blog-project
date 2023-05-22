@@ -3,7 +3,10 @@
 }
 
 .header {
-  // overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 5;
   display: flex;
   justify-content: space-between;
 }

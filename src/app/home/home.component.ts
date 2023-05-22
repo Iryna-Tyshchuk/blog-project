@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
 import { TopicService } from '../topic.service';
+import { PageEvent } from '@angular/material/paginator';
 
 interface Option {
   id: string;
@@ -15,24 +16,26 @@ interface Option {
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  
-  // currentArticle = '';
   options: Option[] = [
     { id: '1', value: 'Alphabet' },
     { id: '2', value: 'Date created' },
   ];
+
   searchText: string = '';
-  startDate: Date = new Date();
-  endDate: Date = new Date();
+  startDate!: Date;
+  endDate!: Date;
   selectedFilter: string = '';
   articles: Article[] = [];
   selectedTopic: string = '';
+  totalPosts = 10;
+  postsPerPage = 2;
+  currentPage = 1;
+  pageSizeOptions = [1, 2, 5, 10];
 
   constructor(
     private articleService: ArticleService,
     private topicService: TopicService
   ) {}
-
 
   ngOnInit(): void {
     this.getArticles();
@@ -43,10 +46,12 @@ export class HomeComponent implements OnInit {
   }
 
   getArticles(): void {
-    this.articleService.getArticles().subscribe((articles) => {
-      this.articles = articles;
-      // this.applyFilters();
-    });
+    this.articleService
+      .getArticles(this.postsPerPage, this.currentPage)
+      .subscribe((articles) => {
+        this.articles = articles;
+        this.applyFilters();
+      });
   }
 
   applyFilters(): void {
@@ -67,9 +72,7 @@ export class HomeComponent implements OnInit {
     if (this.startDate && this.endDate) {
       filteredArticles = filteredArticles.filter((article) => {
         const articleDate = new Date(article.postDate);
-        return (
-          articleDate >= this.startDate && articleDate <= this.endDate
-        );
+        return articleDate >= this.startDate && articleDate <= this.endDate;
       });
     }
 
@@ -78,8 +81,9 @@ export class HomeComponent implements OnInit {
         a.title.localeCompare(b.title)
       );
     } else if (this.selectedFilter === 'Date created') {
-      filteredArticles = filteredArticles.sort((a, b) =>
-        new Date(b.postDate).getTime() - new Date(a.postDate).getTime()
+      filteredArticles = filteredArticles.sort(
+        (a, b) =>
+          new Date(b.postDate).getTime() - new Date(a.postDate).getTime()
       );
     }
 
@@ -96,5 +100,13 @@ export class HomeComponent implements OnInit {
 
   applyFilter(): void {
     this.applyFilters();
+  }
+
+  onChangedPage(pageData: PageEvent) {
+    console.log('pageData', pageData);
+
+    this.currentPage = pageData.pageIndex + 1;
+    this.postsPerPage = pageData.pageSize;
+    this.articleService.getArticles(this.postsPerPage, this.currentPage);
   }
 }

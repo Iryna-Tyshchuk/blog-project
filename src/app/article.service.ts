@@ -17,8 +17,12 @@ export class ArticleService {
   };
   constructor(private http: HttpClient) {}
 
-  getArticles(): Observable<Article[]> {
-    return this.http.get<Article[]>(this.myBackendUrl).pipe(
+  getArticles(
+    postsPerPage: number,
+    currentPage: number
+  ): Observable<Article[]> {
+    const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
+    return this.http.get<Article[]>(this.myBackendUrl + queryParams).pipe(
       tap((_) => this.log('fetched posts')),
       catchError(this.handleError<Article[]>('getPosts', []))
     );
