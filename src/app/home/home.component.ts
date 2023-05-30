@@ -29,9 +29,9 @@ export class HomeComponent implements OnInit {
   articles: Article[] = [];
   selectedTopic: string = '';
   totalPosts = 0;
-  postsPerPage = 10;
+  postsPerPage = 6;
   currentPage = 1;
-  pageSizeOptions = [5, 10, 20];
+  pageSizeOptions = [6, 12, 18];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 

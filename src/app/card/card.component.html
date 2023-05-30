@@ -1,18 +1,22 @@
 <mat-card class="example-card">
-  <mat-card-header style="min-height: 65px;">
+  <mat-card-header>
     <mat-card-title>
-      {{article.title}}
+      {{ article.title }}
     </mat-card-title>
   </mat-card-header>
   <img mat-card-image src="{{ article.images![0].url }}" alt="Photo" />
-  
+
   <mat-card-content class="mat_card_content">
-    <span>topic <span class="accent_topic">{{ article.topic }}</span></span>
-    <span>{{article.postDate | date}}</span>
+    <span class="accent_topic">{{ article.topic }}</span>
   </mat-card-content>
-  <mat-card-actions style="display: flex;   justify-content: space-between;">
+  <mat-card-actions style="display: flex; justify-content: space-between">
     <!-- <button mat-flat-button color="accent">Delete</button> -->
-    <button mat-flat-button color="primary" routerLink="/articles/{{ article._id }}">
+    <span>{{ article.postDate | date }}</span>
+    <button
+      mat-flat-button
+      color="primary"
+      routerLink="/articles/{{ article._id }}"
+    >
       Read More
     </button>
   </mat-card-actions>

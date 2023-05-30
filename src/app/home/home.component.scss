@@ -1,6 +1,6 @@
 .home {
   height: 100%;
-  padding: 20px;
+  // padding: 20px;
   background: transparent;
 }
 
@@ -55,8 +55,8 @@
     }
     @include desktop {
       width: calc((100% - 60px) / 3);
-      column-gap: 16px;
-      row-gap: 32px;
+      // column-gap: 16px;
+      // row-gap: 32px;
     }
   }
 }
@@ -90,14 +90,14 @@ mat-paginator {
   width: 100%;
   margin: 0 auto;
   margin-top: 60px;
-  padding: 0 20px;
+  // padding: 0 20px;
 
   @media screen and (min-width: 320px) {
     max-width: 320px;
   }
 
   @media screen and (min-width: 768px) {
-    padding: 0 32px;
+    // padding: 0 32px;
     max-width: 768px;
   }
 
