@@ -5,28 +5,30 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Article } from './article';
+import { Comment } from './comment';
 
 @Injectable({ providedIn: 'root' })
 export class ArticleService {
-  private articlesUrl =
-    'https://645b67d199b618d5f31a4c59.mockapi.io/api/blog/articles';
-
   private myBackendUrl = 'http://localhost:3000/api/posts';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
+  httpOptionsFiles = {
+    headers: new HttpHeaders({
+      'Content-Type': 'multipart/form-data',
+    }),
+  };
+
   constructor(private http: HttpClient) {}
 
-  getArticles(
-    postsPerPage: number,
-    currentPage: number
-  ): Observable<Article[]> {
-    const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
-    return this.http.get<Article[]>(this.myBackendUrl + queryParams).pipe(
-      tap((_) => this.log('fetched posts')),
-      catchError(this.handleError<Article[]>('getPosts', []))
-    );
-  }
+  // getArticles(filters: any): Observable<Article[]> {
+  //   return this.http
+  //     .get<Article[]>(`${this.myBackendUrl}`, { params: filters })
+  //     .pipe(
+  //       tap((_) => this.log('fetched posts')),
+  //       catchError(this.handleError<Article[]>('getPosts', []))
+  //     );
+  // }
 
   getArticle(id: string): Observable<Article> {
     const url = `${this.myBackendUrl}/${id}`;
@@ -36,15 +38,19 @@ export class ArticleService {
     );
   }
 
+  getArticles(
+    params: any
+  ): Observable<{ posts: Article[]; totalPosts: number }> {
+    const url = `${this.myBackendUrl}`;
+    return this.http.get<{ posts: Article[]; totalPosts: number }>(url, {
+      params,
+    });
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
+      console.error(error);
       this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
       return of(result as T);
     };
   }
@@ -55,28 +61,23 @@ export class ArticleService {
     console.log('message', message);
   }
 
-  updateArticle(article: Article): Observable<any> {
-    return this.http.put(this.articlesUrl, article, this.httpOptions).pipe(
-      tap((_) => this.log(`updated post id=${article.id}`)),
+  updateArticle(postId: string, formData: FormData): Observable<any> {
+    const url = `${this.myBackendUrl}/${postId}`;
+    return this.http.put(url, formData).pipe(
+      tap((_) => this.log(`updated post id=${postId}`)),
       catchError(this.handleError<any>('updatePost'))
     );
   }
 
-  /** POST: add a new hero to the server */
-  addArticle(article: any, file: any): Observable<Article> {
-    return this.http
-      .post<Article>(this.myBackendUrl, article, this.httpOptions)
-      .pipe(
-        tap((newArticle: Article) =>
-          this.log(`added post w/ id=${newArticle._id}`)
-        ),
-        catchError(this.handleError<Article>('addPost'))
-      );
+  addArticle(formData: FormData): Observable<any> {
+    return this.http.post(`${this.myBackendUrl}`, formData).pipe(
+      tap((newArticle) => this.log(`added post w/ id=${newArticle}`)),
+      catchError(this.handleError('addPost'))
+    );
   }
 
-  /** DELETE: delete the hero from the server */
   deleteArticle(id: string): Observable<Article> {
-    const url = `${this.articlesUrl}/${id}`;
+    const url = `${this.myBackendUrl}/${id}`;
 
     return this.http.delete<Article>(url, this.httpOptions).pipe(
       tap((_) => this.log(`deleted hero id=${id}`)),
@@ -84,19 +85,38 @@ export class ArticleService {
     );
   }
 
-  /* GET heroes whose name contains search term */
   searchArticles(term: string): Observable<Article[]> {
     if (!term.trim()) {
       // if not search term, return empty hero array.
       return of([]);
     }
-    return this.http.get<Article[]>(`${this.articlesUrl}/?name=${term}`).pipe(
+    return this.http.get<Article[]>(`${this.myBackendUrl}/?name=${term}`).pipe(
       tap((x) =>
         x.length
           ? this.log(`found posts matching "${term}"`)
           : this.log(`no posts matching "${term}"`)
       ),
       catchError(this.handleError<Article[]>('searchPosts', []))
+    );
+  }
+
+  getCommentsForPost(postId: string): Observable<Comment[]> {
+    const url = `${this.myBackendUrl}/${postId}/comments`;
+    return this.http.get<Comment[]>(url).pipe(
+      tap((_) => this.log(`fetched comments for post id=${postId}`)),
+      catchError(
+        this.handleError<Comment[]>(`getCommentsForPost postId=${postId}`)
+      )
+    );
+  }
+
+  createCommentForPost(postId: string, comment: Comment): Observable<Comment> {
+    const url = `${this.myBackendUrl}/${postId}/comments`;
+    return this.http.post<Comment>(url, comment, this.httpOptions).pipe(
+      tap((_) => this.log(`created comment for post id=${postId}`)),
+      catchError(
+        this.handleError<Comment>(`createCommentForPost postId=${postId}`)
+      )
     );
   }
 }

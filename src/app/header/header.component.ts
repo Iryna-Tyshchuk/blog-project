@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
     this.router.events.subscribe((event: RouterEvent | any) => {
       if (event instanceof NavigationEnd) {
         this.isHomePage = event.url === '/';
+        // this.selectedTopic = "";
       }
     });
   }

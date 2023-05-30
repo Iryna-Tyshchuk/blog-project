@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
 import { TopicService } from '../topic.service';
-import { PageEvent } from '@angular/material/paginator';
+import { debounceTime } from 'rxjs';
 
 interface Option {
   id: string;
@@ -27,10 +28,12 @@ export class HomeComponent implements OnInit {
   selectedFilter: string = '';
   articles: Article[] = [];
   selectedTopic: string = '';
-  totalPosts = 10;
-  postsPerPage = 2;
+  totalPosts = 0;
+  postsPerPage = 10;
   currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10];
+  pageSizeOptions = [5, 10, 20];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private articleService: ArticleService,
@@ -38,75 +41,55 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getArticles();
-    this.topicService.selectedTopic$.subscribe((topic: string) => {
+    this.topicService.selectedTopic$.subscribe((topic) => {
       this.selectedTopic = topic;
-      this.getArticles();
+      this.searchPosts();
     });
   }
 
-  getArticles(): void {
-    this.articleService
-      .getArticles(this.postsPerPage, this.currentPage)
-      .subscribe((articles) => {
-        this.articles = articles;
-        this.applyFilters();
-      });
+  onChangedPage(event: PageEvent): void {
+    this.currentPage = event.pageIndex + 1;
+    this.postsPerPage = event.pageSize;
+    this.searchPosts();
   }
 
-  applyFilters(): void {
-    let filteredArticles = [...this.articles];
-
-    if (this.selectedTopic) {
-      filteredArticles = filteredArticles.filter(
-        (article) => article.topic === this.selectedTopic
-      );
-    }
-
-    if (this.searchText) {
-      filteredArticles = filteredArticles.filter((article) =>
-        article.title.toLowerCase().includes(this.searchText.toLowerCase())
-      );
-    }
-
-    if (this.startDate && this.endDate) {
-      filteredArticles = filteredArticles.filter((article) => {
-        const articleDate = new Date(article.postDate);
-        return articleDate >= this.startDate && articleDate <= this.endDate;
-      });
-    }
-
-    if (this.selectedFilter === 'Alphabet') {
-      filteredArticles = filteredArticles.sort((a, b) =>
-        a.title.localeCompare(b.title)
-      );
-    } else if (this.selectedFilter === 'Date created') {
-      filteredArticles = filteredArticles.sort(
-        (a, b) =>
-          new Date(b.postDate).getTime() - new Date(a.postDate).getTime()
-      );
-    }
-
-    this.articles = filteredArticles;
+  onFilter(): void {
+    this.searchPosts();
   }
 
   searchByTitle(): void {
-    this.applyFilters();
+    this.searchPosts();
   }
 
   searchByDateRange(): void {
-    this.applyFilters();
+    this.searchPosts();
   }
 
-  applyFilter(): void {
-    this.applyFilters();
-  }
+  searchPosts(): void {
+    const queryParams: any = {
+      page: this.currentPage,
+      perPage: this.postsPerPage,
+    };
 
-  onChangedPage(pageData: PageEvent) {
-    console.log('pageData', pageData);
+    if (this.searchText) {
+      queryParams.search = this.searchText;
+    }
+    if (this.startDate) {
+      queryParams.startDate = this.startDate;
+    }
+    if (this.endDate) {
+      queryParams.endDate = this.endDate;
+    }
+    if (this.selectedTopic) {
+      queryParams.topic = this.selectedTopic;
+    }
+    if (this.selectedFilter) {
+      queryParams.filter = this.selectedFilter;
+    }
 
-    this.currentPage = pageData.pageIndex + 1;
-    this.postsPerPage = pageData.pageSize;
-    this.articleService.getArticles(this.postsPerPage, this.currentPage);
+    this.articleService.getArticles(queryParams).subscribe((result) => {
+      this.articles = result.posts;
+      this.totalPosts = result.totalPosts;
+    });
   }
 }

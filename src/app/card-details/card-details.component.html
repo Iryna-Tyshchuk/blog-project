@@ -24,4 +24,41 @@
       Edit <mat-icon>edit</mat-icon>
     </button>
   </div>
+
+  <div class="comments-section">
+    <h3>Comments</h3>
+    <div *ngIf="comments.length === 0">No comments yet</div>
+    <mat-list>
+      <mat-list-item *ngFor="let comment of comments" class="comment-item" >
+        <mat-icon matListItemIcon>comment</mat-icon>
+        <span matListItemTitle>{{ comment.author }}:</span>
+        <span matListItemLine> {{ comment.comment }}</span>
+      </mat-list-item>
+    </mat-list>
+    <div class="new-comment">
+      <h4>Add a Comment</h4>
+      <form (ngSubmit)="createComment()">
+        <mat-form-field>
+          <mat-label>Author</mat-label>
+          <input
+            matInput
+            type="text"
+            name="author"
+            [(ngModel)]="newComment.author"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Comment</mat-label>
+          <textarea
+            matInput
+            name="comment"
+            [(ngModel)]="newComment.comment"
+            required
+          ></textarea>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
 </div>

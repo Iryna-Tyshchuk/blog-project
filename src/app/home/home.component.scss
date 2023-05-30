@@ -36,6 +36,8 @@
   gap: 20px;
   align-items: center;
   justify-content: center;
+  // flex: 1;
+  overflow-y: auto;
   & li {
     cursor: pointer;
     width: 100%;
@@ -59,6 +61,11 @@
   }
 }
 
+mat-drawer-content {
+  display: flex;
+  flex-direction: column;
+}
+
 .example-full-width {
   width: 100%;
 }
@@ -75,7 +82,7 @@
 
 mat-paginator {
   background: transparent;
-  // margin-top: auto;
+  margin-top: auto;
   margin-bottom: 60px;
 }
 

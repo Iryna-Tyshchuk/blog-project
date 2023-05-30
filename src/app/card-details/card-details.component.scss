@@ -23,7 +23,7 @@
   p {
     padding-top: 10px;
     text-align: center;
-    text-transform: capitalize;
+    // text-transform: capitalize;
   }
 }
 
@@ -32,9 +32,9 @@
   gap: 10px;
   align-items: center;
   justify-content: center;
- & button {
-  color: #ffd740;
- }
+  & button {
+    color: #ffd740;
+  }
 }
 
 .slider_container {
@@ -52,7 +52,23 @@
   gap: 40px;
   justify-content: center;
 }
-.subtitle{
+.subtitle {
   color: #673ab7;
   font-weight: 600;
+}
+
+.comments-section {
+  display: flex;
+  flex-direction: column;
+  padding: 60px;
+ 
+}
+.new-comment {
+  display: flex;
+  flex-direction: column;
+  & form {
+    display: flex;
+    flex-direction: column;
+   
+  }
 }

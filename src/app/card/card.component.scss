@@ -1,0 +1,23 @@
+.example-card {
+  /* min-height: 400px; */
+  max-width: 400px;
+
+  cursor: auto;
+  background: linear-gradient(to bottom, rgba(104, 58, 183, 0.3), rgba(255, 193, 7, 0.301));
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+.mat_card_content {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+mat-card-title {
+  color:white;
+}
+.accent_topic {
+  font-weight: 500;
+  color: #673ab7;
+}

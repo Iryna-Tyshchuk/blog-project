@@ -1,7 +1,9 @@
 <mat-toolbar class="header" color="primary">
   <div class="container">
-    <button routerLink="/" mat-icon-button class="example-icon" color="accent">
-      <mat-icon>home</mat-icon>
+    <button routerLink="/" mat-icon-button class="example-icon" color="accent"
+    (click)="selectTopic('')"
+    >
+      <mat-icon>home</mat-icon> 
     </button>
 
     <span class="example-spacer"></span>
