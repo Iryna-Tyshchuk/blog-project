@@ -4,7 +4,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
 import { TopicService } from '../topic.service';
-import { debounceTime } from 'rxjs';
 
 interface Option {
   id: string;
@@ -41,6 +40,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // unsubscribe
     this.topicService.selectedTopic$.subscribe((topic) => {
       this.selectedTopic = topic;
       this.searchPosts();

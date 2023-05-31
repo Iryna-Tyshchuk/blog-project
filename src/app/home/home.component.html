@@ -56,7 +56,6 @@
   </mat-drawer>
 
   <mat-drawer-content>
-
     <ul class="posts" *ngIf="articles.length > 0">
       <li *ngFor="let article of articles">
         <app-card [article]="article"></app-card>
@@ -71,7 +70,5 @@
       *ngIf="totalPosts > 0"
     >
     </mat-paginator>
-
   </mat-drawer-content>
-
 </mat-drawer-container>
