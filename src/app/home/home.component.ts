@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
 import { TopicService } from '../topic.service';
+import { Subscription } from 'rxjs';
 
 interface Option {
   id: string;
@@ -15,7 +16,7 @@ interface Option {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   options: Option[] = [
     { id: '1', value: 'Alphabet' },
     { id: '2', value: 'Date created' },
@@ -32,6 +33,8 @@ export class HomeComponent implements OnInit {
   currentPage = 1;
   pageSizeOptions = [6, 12, 18];
 
+  private topicSubscription: Subscription | undefined;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
@@ -40,11 +43,18 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // unsubscribe
-    this.topicService.selectedTopic$.subscribe((topic) => {
-      this.selectedTopic = topic;
-      this.searchPosts();
-    });
+    this.topicSubscription = this.topicService.selectedTopic$.subscribe(
+      (topic) => {
+        this.selectedTopic = topic;
+        this.searchPosts();
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    if (this.topicSubscription) {
+      this.topicSubscription.unsubscribe();
+    }
   }
 
   onChangedPage(event: PageEvent): void {
@@ -74,10 +84,8 @@ export class HomeComponent implements OnInit {
     if (this.searchText) {
       queryParams.search = this.searchText;
     }
-    if (this.startDate) {
+    if (this.startDate && this.endDate) {
       queryParams.startDate = this.startDate;
-    }
-    if (this.endDate) {
       queryParams.endDate = this.endDate;
     }
     if (this.selectedTopic) {
